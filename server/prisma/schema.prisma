@@ -33,32 +33,30 @@ model User {
 
 //创建商品模型
 model Product {
-  id           Int      @id @default(autoincrement())
-  name         String   @unique
+  id           Int       @id @default(autoincrement())
+  name         String    @unique
   price        Float
   description  String?
   number       Int
-
+  category     Category? @relation(fields: [categoryId], references: [id])
+  categoryId   Int?
   createUser   User?     @relation("CreateUserRelation", fields: [createUserId], references: [id])
   createUserId Int?
-
   updateUser   User?     @relation("UpdateUserRelation", fields: [updateUserId], references: [id])
   updateUserId Int?
-
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
 //创建分类模型
 model Category {
-  id           Int      @id @default(autoincrement())
-  name         String   @unique
-
+  id           Int       @id @default(autoincrement())
+  name         String    @unique
   createUser   User?     @relation("CreateUserRelation", fields: [createUserId], references: [id])
   createUserId Int?
-
   updateUser   User?     @relation("UpdateUserRelation", fields: [updateUserId], references: [id])
   updateUserId Int?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  Product      Product[]
 }
