@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//创建用户模型
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdProduct Product[] @relation("CreateUserRelation")
+
+  updatedProduct Product[] @relation("UpdateUserRelation")
+
+  createCategory Category[] @relation("CreateUserRelation")
+
+  updateCategory Category[] @relation("UpdateUserRelation")
+}
+
+//创建商品模型
+model Product {
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+  price        Float
+  description  String?
+  number       Int
+
+  createUser   User?     @relation("CreateUserRelation", fields: [createUserId], references: [id])
+  createUserId Int?
+
+  updateUser   User?     @relation("UpdateUserRelation", fields: [updateUserId], references: [id])
+  updateUserId Int?
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+//创建分类模型
+model Category {
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+
+  createUser   User?     @relation("CreateUserRelation", fields: [createUserId], references: [id])
+  createUserId Int?
+
+  updateUser   User?     @relation("UpdateUserRelation", fields: [updateUserId], references: [id])
+  updateUserId Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
