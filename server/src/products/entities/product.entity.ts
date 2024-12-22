@@ -1,5 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Product } from "@prisma/client";
+import { Category, Product } from "@prisma/client";
+import { CategoryEntity } from "src/categories/entities/category.entity";
+
 export class ProductEntity implements Product {
 
     @ApiProperty()
@@ -19,6 +21,9 @@ export class ProductEntity implements Product {
 
     @ApiProperty({ required: false, nullable: true })
     categoryId: number | null;
+
+    @ApiProperty({ required: false, nullable: true })
+    category: CategoryEntity | null;
 
     @ApiProperty({ required: false, nullable: true })
     createUserId: number | null;
