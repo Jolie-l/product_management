@@ -1,25 +1,43 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty,IsNumber,IsString,MaxLength,MinLength,IsOptional } from "class-validator";
 export class CreateProductDto {
+    //进行输入验证
     @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(50)
     name: string;
 
+    @IsNumber()
+    @IsNotEmpty()
     @ApiProperty()
     price: number;
 
-    @ApiProperty({ required: false ,nullable: true })
-    description?: string | null;
+    @IsString()
+    @MaxLength(200)
+    @IsOptional()
+    @ApiProperty({ required: false })
+    description?: string ;
 
+    @IsNumber()
+    @IsNotEmpty()
     @ApiProperty()
     number: number;
 
-    @ApiProperty({ required: false ,nullable: true})
-    categoryId?: number;
+    @IsOptional()
+    @IsNumber()
+    @ApiProperty({ required: false})
+    categoryId?: number ;
 
-    @ApiProperty({ required: false ,nullable: true})
-    createUserId?: number | null;
+    @IsOptional()
+    @IsNumber()
+    @ApiProperty({ required: false })
+    createUserId?: number;
 
-    @ApiProperty({ required: false ,nullable: true})
-    updateUserId?: number | null;
+    @IsOptional()
+    @IsNumber()
+    @ApiProperty({ required: false })
+    updateUserId?: number ;
 
 
 

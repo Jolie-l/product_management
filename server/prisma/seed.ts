@@ -1,25 +1,37 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+
 // 初始化数据库
 const prisma = new PrismaClient();
 
+const roundsOfHashing = 10;
+
 async function main() {
+
+    const passwordAllen = await bcrypt.hash('password-Allen', roundsOfHashing);
+    const passwordLucy = await bcrypt.hash('password-Lucy', roundsOfHashing);
+
     //创建2个测试用户
     const user1 = await prisma.user.upsert({
         where: { email: '111@163.com' },
-        update: {},
+        update: {
+            password: passwordAllen,
+        },
         create: {
             email: '111@163.com',
-            password: '111111',
+            password: passwordAllen,
             name: 'Allen',
         },
     });
 
     const user2 = await prisma.user.upsert({
         where: { email: '222@163.com' },
-        update: {},
+        update: {
+            password: passwordLucy,
+        },
         create: {
             email: '222@163.com',
-            password: '222222',
+            password: passwordLucy,
             name: 'Lucy',
         },
     });
