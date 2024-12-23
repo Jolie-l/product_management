@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, NotFoundException, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiTags, ApiCreatedResponse, ApiOkResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('users')
 
@@ -19,6 +20,8 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)        //使用JwtAuthGuard保护路由
+  @ApiBearerAuth()                //使用ApiBearerAuth装饰器在swagger文档中标识此路由需要JWT授权
   @ApiOkResponse({ type: UserEntity, isArray: true })
   async findAll() {
     const users = await this.usersService.findAll();
@@ -27,6 +30,8 @@ export class UsersController {
 
   //做错误处理，如果product不存在，则抛出NotFoundException
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {  //ParseIntPipe转换动态url路径为数字
     const user = await this.usersService.findOne(id);
@@ -37,12 +42,16 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
   async update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
     return new UserEntity(await this.usersService.update(id, updateUserDto));
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return new UserEntity(await this.usersService.remove(id));

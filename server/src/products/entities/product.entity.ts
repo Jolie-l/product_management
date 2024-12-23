@@ -15,6 +15,9 @@ export class ProductEntity implements Product {
     price: number;
 
     @ApiProperty({ required: false, nullable: true })
+    image: string | null;
+
+    @ApiProperty({ required: false, nullable: true })
     description: string | null;
 
     @ApiProperty()

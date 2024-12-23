@@ -9,6 +9,9 @@ export class CategoryEntity implements Category {
     id: number;
 
     @ApiProperty({ required: false ,nullable: true })
+    description: string | null;
+
+    @ApiProperty({ required: false ,nullable: true })
     createUserId: number | null;
 
     @ApiProperty({ required: false ,nullable: true })

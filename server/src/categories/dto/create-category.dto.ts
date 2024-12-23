@@ -9,6 +9,12 @@ export class CreateCategoryDto {
     @ApiProperty()
     name: string;
 
+    @ApiProperty({ required: false })
+    @IsString()
+    @IsOptional()
+    @MaxLength(200)
+    description?: string;
+
     @IsNumber()
     @IsOptional()
     @ApiProperty({ required: false })

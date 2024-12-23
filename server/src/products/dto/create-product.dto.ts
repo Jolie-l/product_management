@@ -13,6 +13,11 @@ export class CreateProductDto {
     @ApiProperty()
     price: number;
 
+    @ApiProperty({ required: false })
+    @IsString()
+    @IsOptional()
+    image?: string ;
+
     @IsString()
     @MaxLength(200)
     @IsOptional()
