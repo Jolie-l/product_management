@@ -4,6 +4,7 @@ import logo from '@/assets/logo.jpg'
 import { useDispatch } from 'react-redux'
 import { fetchLogin } from '@/store/modules/user'
 import { useNavigate } from 'react-router-dom'
+import Register from '../../components/RegisterForm'
 
 
 // 登录页面
@@ -51,13 +52,13 @@ const Login = () => {
                                 message: 'Please input your password!',
                             },
                         ]}>
-                        <Input size="large" placeholder="请输入密码" />
+                        <Input.Password size="large" placeholder="请输入密码" />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit" size="large" block>
                             登录
                         </Button>
-
+                        <Register />
                     </Form.Item>
                 </Form>
             </Card>

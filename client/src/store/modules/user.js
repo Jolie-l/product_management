@@ -34,13 +34,20 @@ const fetchLogin = (loginForm) => {
     return async (dispatch) => {
         //1.发送异步请求
         const res = await request.post('/auth/login', loginForm)
-
         //2.提交同步action进行token的存入
         dispatch(setToken(res.accessToken))
 
     }
 }
 
-export { setToken, fetchLogin }
+const fetchRegister = (registerForm) => {
+    return async (dispatch) => {
+        //1.发送异步请求
+        const res = await request.post('/users', registerForm)
+        console.log(res);
+    }
+}
+
+export { setToken, fetchLogin ,fetchRegister}
 
 export default userReducer
