@@ -1,5 +1,6 @@
 //axios的封装，统一处理请求
 import axios from 'axios'
+import { getToken } from './token'
 
 const request = axios.create({
     //1.根域名配置
@@ -11,6 +12,13 @@ const request = axios.create({
 
 // 3.添加请求拦截器,在发送请求之前做一些处理
 request.interceptors.request.use((config) => {
+
+    //在发送请求之前封装token
+    const token = getToken()
+    if (token) {
+        //在请求头中添加token
+        config.headers.Authorization = `Bearer ${token}`
+    }
     return config
 }, (error) => {
     return Promise.reject(error)
