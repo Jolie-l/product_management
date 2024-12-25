@@ -35,13 +35,15 @@ const userStore = createSlice({
 )
 
 //解构出actionCreator
-const { setToken, setEmail, setId, setUserInfonfo } = userStore.actions
+const { setToken, setId, setUserInfonfo } = userStore.actions
 
 
 //获取reducer函数
 const userReducer = userStore.reducer
 
 //异步修改方法
+
+//登录
 const fetchLogin = (loginForm) => {
     return async (dispatch) => {
 
@@ -54,11 +56,9 @@ const fetchLogin = (loginForm) => {
 
         //3.登录的时候把用户信息id存入localStorage
         dispatch(setId(res.id))
-
-
-
     }
 }
+
 //注册
 const fetchRegister = (registerForm) => {
     return async (dispatch) => {
@@ -67,6 +67,7 @@ const fetchRegister = (registerForm) => {
         console.log(res);
     }
 }
+
 //获取用户信息
 const fetchUserInfo = () => {
     return async (dispatch) => {

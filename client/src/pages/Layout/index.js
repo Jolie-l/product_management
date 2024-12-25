@@ -71,7 +71,8 @@ const GeekLayout = () => {
     }
 
     return (
-        <Layout>
+        <Layout className="layout-container">
+            {/* 顶部 */}
             <Header className="header">
                 <div className="logo" />
                 <div className="user-info">
@@ -83,9 +84,10 @@ const GeekLayout = () => {
                     </span>
                 </div>
             </Header>
-            <Layout>
+            {/* 主体 */}
+            <Layout style={{ height: 'calc(100vh - 64px)' }}>
+                {/* 左侧导航栏 */}
                 <Sider width={200} className="site-layout-background">
-                    {/* 左侧导航栏的渲染 */}
                     <Menu
                         mode="inline"
                         theme="dark"
@@ -94,9 +96,14 @@ const GeekLayout = () => {
                         onClick={onMenuClick}
                         items={items}
                         style={{ height: '100%', borderRight: 0 }}></Menu>
-                    {/* 二级路由组件渲染的位置 */}
                 </Sider>
-                <Outlet />
+
+                {/* 二级路由组件渲染的位置 */}
+                <Layout style={{ overflowY: 'auto' }}>
+                    <div style={{ height: '100%', overflowY: 'auto' }}>
+                        <Outlet />
+                    </div>
+                </Layout>
             </Layout>
         </Layout>
     )
