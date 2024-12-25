@@ -1,6 +1,7 @@
 //axios的封装，统一处理请求
 import axios from 'axios'
 import { getToken } from './token'
+import router from '@/router'
 
 const request = axios.create({
     //1.根域名配置
@@ -30,6 +31,16 @@ request.interceptors.response.use((response) => {
     return response.data
 }, (error) => {
     //对错误响应的数据做处理
+    //监控401错误，如果是401错误，则清除token，并跳转到登录页面
+    if (error.response.status === 401) {
+        //清除token
+        localStorage.removeItem('token_key')
+        localStorage.removeItem('id')
+        //跳转到登录页面
+        router.navigate('/login')
+        //刷新页面
+        window.location.reload()
+    }
     return Promise.reject(error)
 })
 

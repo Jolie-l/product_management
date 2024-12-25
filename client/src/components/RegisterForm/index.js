@@ -3,6 +3,7 @@ import { Modal, Button, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { fetchRegister } from '@/store/modules/user';
 
+
 const Register = () => {
     const dispatch = useDispatch();
     const [isVisible, setIsVisible] = useState(false);
@@ -18,7 +19,6 @@ const Register = () => {
     };
 
     const onFinish = async (values) => {
-
         // 发送请求到后端进行注册
         await dispatch(fetchRegister(values))
 
@@ -32,6 +32,7 @@ const Register = () => {
             <Button type="primary" onClick={showModal}>
                 注册
             </Button>
+
             <Modal
                 title="注册"
                 visible={isVisible}
