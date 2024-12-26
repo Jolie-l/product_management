@@ -1,15 +1,17 @@
-import { Card,  Button, DatePicker, Select } from 'antd'
+import { Card, Button, DatePicker, Select } from 'antd'
 import { Table, Space } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 //import img404 from '@/assets/error.png'
 import { useDispatch } from 'react-redux'
 import { useProductList } from '@/hooks/useProductList'
-import  ProductSelector  from '@/components/ProductSelector/index'
+import ProductSelector from '@/components/ProductSelector/index'
+
 
 
 const Article = () => {
 
     const dispatch = useDispatch()
+
     //准备列表的列数据
     const columns = [
         { title: '图片', dataIndex: 'image' },
@@ -20,8 +22,8 @@ const Article = () => {
         { title: '库存', dataIndex: 'number' },
         { title: '创建人', dataIndex: 'createUserId' },
         { title: '更新人', dataIndex: 'updateUserId' },
-        { title: '创建时间', dataIndex: 'createdAt' },
-        { title: '更新时间', dataIndex: 'updatedAt' },
+        { title: '创建时间', dataIndex: 'formatCreatedAt' },
+        { title: '更新时间', dataIndex: 'formatUpdatedAt' },
         {
             title: '操作',
             render: data => {
@@ -52,6 +54,8 @@ const Article = () => {
             <Card title={`商品列表`}>
                 <Table rowKey="id" columns={columns} dataSource={productList} />
             </Card>
+
+
         </div>
     )
 }
