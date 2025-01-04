@@ -51,7 +51,7 @@ const GeekLayout = () => {
     }, [dispatch])
 
     //获取redux中的用户信息
-    const email = useSelector((state) => state.user.userInfo.email)
+    const name = useSelector((state) => state.user.userInfo.name)
 
     // 菜单点击路由跳转 
     const onMenuClick = (route) => {
@@ -76,7 +76,7 @@ const GeekLayout = () => {
             <Header className="header">
                 <div className="logo" />
                 <div className="user-info">
-                    <span className="user-name">{email}</span>
+                    <span className="user-name">{name}</span>
                     <span className="user-logout">
                         <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消" onConfirm={onConfirm}>
                             <LogoutOutlined /> 退出

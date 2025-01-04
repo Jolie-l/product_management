@@ -17,8 +17,8 @@ const Article = () => {
         //    { title: '更新的商品列表', dataIndex: 'product[]' },
         { title: '创建的分类列表', dataIndex: 'product[]' },
         //  { title: '更新的商品列表', dataIndex: 'product[]' },
-        { title: '创建时间', dataIndex: 'formatCreatedAt' },
-        { title: '更新时间', dataIndex: 'formatUpdatedAt' },
+        { title: '创建时间', dataIndex: 'createdAt' },
+        { title: '更新时间', dataIndex: 'updatedAt' },
         {
             title: '操作',
             render: data => {
@@ -38,7 +38,7 @@ const Article = () => {
     ]
 
     //获取分类列表
-    const userList = useUserList()
+    const {userList,fetchUsers}=useUserList()
 
     return (
         <div className='product_container'>

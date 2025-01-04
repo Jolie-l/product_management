@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { request } from "@/utils";
 import { message } from "antd";
-import Item from "antd/es/list/Item";
 
 function useProductList() {
     const [productList, setProductList] = useState([]);
@@ -62,12 +61,12 @@ function useProductList() {
 
     }
 
-    // 设定一个副作用来读取初始数据（可选）
+    // 设定一个副作用来读取初始数据
     useEffect(() => {
         fetchProducts(); // 可以在插入后去获取最初的产品列表
     }, []); // 依赖数组为空，表示只在挂载时调用一次
 
-    return { productList, fetchProducts, loading, error }; // 返回loading和error状态
+    return { productList, fetchProducts}; // 返回loading和error状态
 }
 
 export { useProductList }

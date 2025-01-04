@@ -1,14 +1,15 @@
-import { Card, Button, Select, Input, Modal, Table, Space, Form, message } from 'antd'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Card, Button, Select, Input, Modal, Table, Space, Form, message, Upload } from 'antd'
+import { EditOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 //import img404 from '@/assets/error.png'
 import { useDispatch } from 'react-redux'
 import { Breadcrumb, Form as AntForm } from 'antd'
 import { useCategoryList } from '@/hooks/useCategoryList'
 import { useUserList } from '@/hooks/useUserList'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { request } from '@/utils'
 import { useProductList } from '@/hooks/useProductList'
 import { useState } from 'react'
+import { useEffect } from 'react'
 import './index.scss';
 import dayjs from 'dayjs';
 
@@ -19,27 +20,77 @@ const Product = () => {
 
     const dispatch = useDispatch()
 
-    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-    const [currentProduct, setCurrentProduct] = useState(null)
-    const [form] = AntForm.useForm();
+    const navigate = useNavigate()
+
+
+    //获取商品列表
+    const { productList, fetchProducts, } = useProductList(); // 获取产品列表和函数
+
+    //获取分类列表
+    const { categoryList, fetchCategory } = useCategoryList()
+
+    //获取用户列表
+    const { userList, fetchUsers } = useUserList()
+
+    //用户ID到用户名的映射关系
+    const [userNameMap, setUserNameMap] = useState({});
+
+    //分类ID到分类名的映射关系
+    const [categoryNameMap, setCategoryNameMap] = useState({});
+
+    useEffect(()=>{
+        fetchCategory();
+        fetchUsers();
+    },[fetchCategory, fetchUsers])
+
+    useEffect(() => {
+        // 构建用户ID到用户名的映射关系
+        const map = userList.reduce((acc, user) => {
+            acc[user.id] = user.name;
+            return acc;
+        }, {});
+        setUserNameMap(map);
+
+        // 构建分类ID到分类名的映射关系
+        const categoryMap = categoryList.reduce((acc, category) => {
+            acc[category.id] = category.name;
+            return acc;
+        }, {});
+        setCategoryNameMap(categoryMap);
+    }, [userList, categoryList]);
 
     //准备列表的列数据
     const columns = [
-        { title: '图片', dataIndex: 'image' },
+
         { title: '商品名称', dataIndex: 'name' },
-        { title: '商品描述', dataIndex: 'description' },
-        { title: '分类', dataIndex: 'categoryId' },
-        { title: '价格', dataIndex: 'price' },
+        // { title: '商品描述', dataIndex: 'description' },
+        {
+            title: '分类', dataIndex: 'categoryId',
+            render: (categoryId) => categoryNameMap[categoryId] || '-'
+        },
+        {
+            title: '价格', dataIndex: 'price',
+            sorter: (a, b) => a.price - b.price, sortDescriptions: ['descend', 'ascend']
+        },
         { title: '库存', dataIndex: 'number' },
-        { title: '创建人', dataIndex: 'createUserId' },
-        { title: '更新人', dataIndex: 'updateUserId' },
-        { title: '创建时间', dataIndex: 'createdAt', render: (text) => formatTimestamp(text), },
-        { title: '更新时间', dataIndex: 'updatedAt', render: (text) => formatTimestamp(text), },
+        { title: '创建人', dataIndex: 'createUserId', render: (userId) => userNameMap[userId] || '-' },
+        //  { title: '更新人', dataIndex: 'updateUserId', render: (userId) => userNameMap[userId] || '-' },
+        {
+            title: '创建时间', dataIndex: 'createdAt', render: (text) => formatTimestamp(text),
+            sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt), sortDescriptions: ['descend', 'ascend']
+        },
+        //    { title: '更新时间', dataIndex: 'updatedAt', render: (text) => formatTimestamp(text), },
         {
             title: '操作',
             render: (data) => {
                 return (
                     <Space size="middle">
+                        <Button
+                            type='primary'
+                            shape='circle'
+                            icon={<QuestionCircleOutlined />}
+                            onClick={() => navigate(`/product-detail/${data.id}`, { state: data })} // 详情按钮的点击事件
+                        />
                         <Button
                             type="primary"
                             shape="circle"
@@ -58,17 +109,15 @@ const Product = () => {
             }
         }
     ]
-    //获取商品列表
-    const { productList, fetchProducts, loading, error } = useProductList(); // 获取产品列表和函数
-
-    //获取分类列表
-    const categoryList = useCategoryList()
-
-    //获取用户列表
-    const userList = useUserList()
 
     const { Option } = Select
     const { Search } = Input
+
+    // 编辑模态框相关状态
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    // 编辑商品列表相关状态
+    const [currentProduct, setCurrentProduct] = useState(null)
+    const [form] = AntForm.useForm();
 
 
     //筛选功能实现
@@ -88,8 +137,6 @@ const Product = () => {
     // 搜索功能实现
     const onSearch = (value) => {
         fetchProducts(null, null, value);
-        // 你可以在这里实现搜索逻辑，例如在 fetchProducts 中添加搜索条件
-        // fetchProducts(formValue.categoryId, formValue.createUserId, value);
     };
 
     // 取消搜索功能
@@ -165,6 +212,7 @@ const Product = () => {
     const handleCancelEdit = () => {
         setIsEditModalVisible(false);
     };
+
     return (
         <div className='product_container'>
 
@@ -233,10 +281,14 @@ const Product = () => {
                             重置
                         </Button>
                     </div>
+                    {/* 新增按钮 */}
+                    <div>
+                        <Button type='primary' onClick={() => navigate('/add-product')}>新增商品</Button>
+                    </div>
                 </Form>
             </Card>
 
-            {/* 编辑模态框 */}
+            {/* 编辑商品模态框 */}
             <Modal
                 title="编辑商品"
                 visible={isEditModalVisible}
@@ -251,13 +303,14 @@ const Product = () => {
                 ]}
             >
                 <AntForm form={form} layout="vertical" onFinish={handleEditFinish}>
+
                     <AntForm.Item name="name" label="商品名称" rules={[{ required: true, message: '请输入商品名称' }]}>
                         <Input />
                     </AntForm.Item>
                     <AntForm.Item name="description" label="商品描述" rules={[{ message: '请输入商品描述' }]}>
                         <Input />
                     </AntForm.Item>
-                    <AntForm.Item name="categoryId" label="分类" rules={[{ message: '请选择分类' }]}>
+                    <AntForm.Item name="categoryId" label="分类" rules={[{ required: true, message: '请选择分类' }]}>
                         <Select
                             placeholder="请选择分类"
                             showSearch
@@ -271,7 +324,6 @@ const Product = () => {
                     </AntForm.Item>
                     <AntForm.Item name="createUserId" label="创建人" rules={[{ required: true, message: '请选择创建人' }]} initialValue={currentProduct ? currentProduct.createUserId : null} >
                         <Select
-
                             disabled={true} // 禁用该字段
                         >
 
@@ -282,17 +334,26 @@ const Product = () => {
                     ]}>
                         <Input type="number" />
                     </AntForm.Item>
-                    <AntForm.Item name="number" label="库存" rules={[{ required: true, message: '请输入库存' }]}>
+                    <AntForm.Item name="number" label="库存" rules={[{ required: true, message: '请输入库存' },
+                    { type: 'number', transform: (value) => parseInt(value) }
+                    ]}>
                         <Input type='number' />
                     </AntForm.Item>
                 </AntForm>
             </Modal>
 
-
-
             {/* 列表区域 */}
             <Card title={`商品列表`}>
-                <Table rowKey="id" columns={columns} dataSource={productList} />
+                <Table rowKey="id"
+                    columns={columns}
+                    dataSource={productList}
+                    //分页功能
+                    pagination={{
+                        pageSize: 8,
+                        onChange: (page, pageSize) => {
+                            fetchProducts(null, null, null, page, pageSize)
+                        }
+                    }} />
             </Card>
 
 

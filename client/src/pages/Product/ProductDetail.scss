@@ -1,0 +1,24 @@
+.product-detail_container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.product-detail_container .ant-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-detail_container .ant-card-head-title {
+    display: flex;
+    align-items: center;
+}
+
+.product-detail_container .ant-descriptions-item-label {
+    font-weight: bold;
+}
+
+.product-detail_container .ant-descriptions-item-content {
+    margin-left: 10px;
+}

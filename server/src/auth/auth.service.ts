@@ -33,6 +33,7 @@ export class AuthService {
     // 3. 生成 JWT 访问令牌并返回
     // 这里的 JWT 访问令牌包含了用户的 ID，以便在后续的请求中进行身份验证
     return {
+      id:user.id,
       accessToken: this.jwtService.sign({ userId: user.id }),
     };
   }

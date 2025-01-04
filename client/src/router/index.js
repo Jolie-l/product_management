@@ -6,6 +6,8 @@ import Home from "@/pages/Home";
 import Product from "@/pages/Product";
 import Category from "@/pages/Category";
 import User from "@/pages/User";
+import AddProduct from "@/pages/AddProduct";
+import ProductDetail from "@/pages/Product/ProductDetail";
 
 
 //做路由配置
@@ -16,19 +18,27 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Home/>
+                element: <Home />
             },
             {
                 path: "products",
-                element: <Product/>
+                element: <Product />,
+            },
+            {
+                path: "add-product",
+                element: <AddProduct />
+            },
+            {
+                path: "product-detail/:productId",
+                element: <ProductDetail />
             },
             {
                 path: "categories",
-                element: <Category/>
+                element: <Category />
             },
             {
                 path: "users",
-                element: <User/>
+                element: <User />
             },
         ]
     },

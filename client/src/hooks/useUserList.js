@@ -1,38 +1,49 @@
 //封装获取用户列表的hook
 import { useState, useEffect } from "react";
 import { request } from "@/utils";
-import dayjs from 'dayjs'
-
+import { message } from "antd";
 function useUserList() {
     const [userList, setUserList] = useState([]);
-
-    useEffect(() => {
-        //封装函数，在函数体内部调用接口
-        const getUserList = async () => {
+    const [loading, setLoading] = useState(false); // 添加加载状态
+    const [error, setError] = useState(null); // 添加错误状态
+    const fetchUsers = async (inputcreateUserId = '', inputname = '') => {
+        setLoading(true); // 开始加载
+        setError(null); // 清空之前的错误
+        try {
             const res = await request.get('/users')
+            let users = res
+            
+            //如果有包含名称关键字的，则过滤
+            if (inputname) {
+                console.log(inputname);
+                users = users.filter((Item) => {
+                    return Item.name.toLowerCase().includes(inputname.toLowerCase())
+                }
+                )
+            }
 
-            setUserList(res)
+            setUserList(users); // 设置用户列表
+            console.log("过滤后的userlist");
+            console.log(users);
+
+
+        } catch (error) {
+            console.log(error);
+            setError(error); // 记录错误
+            message.error("获取用户列表失败"); // 显示错误提示
+
+        } finally {
+            setLoading(false); // 加载结束
         }
 
-        //调用函数
-        getUserList()
-    }, [])
-    // 如果 productList 为空，返回空数组
-    if (userList.length === 0) {
-        return [];
     }
 
-    //数据处理
-    const formatUserList = userList.map(item => ({
-        id: item.id,
-        name: item.name,
-        email: item.email,
-        formatCreatedAt: dayjs(item.createdAt).format('YYYY-MM-DD'), // 使用 dayjs 格式化日期
-        formatUpdatedAt: dayjs(item.updatedAt).format('YYYY-MM-DD'), // 使用 dayjs 格式化日期
-    }))
+    // 设定一个副作用来读取初始数据
+    useEffect(() => {
+        fetchUsers();
+    }, [])// 依赖数组为空，表示只在挂载时调用一次
 
-    // 返回处理后的数据
-    return formatUserList 
+    return { userList,  fetchUsers }
 }
 
 export { useUserList }
