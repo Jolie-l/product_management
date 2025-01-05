@@ -8,6 +8,7 @@ import Category from "@/pages/Category";
 import User from "@/pages/User";
 import AddProduct from "@/pages/AddProduct";
 import ProductDetail from "@/pages/Product/ProductDetail";
+import AddCategory from "@/pages/Category/addCategory"
 
 
 //做路由配置
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: "categories",
                 element: <Category />
+            },
+            {
+                path:"add-category",
+                element:<AddCategory/>
             },
             {
                 path: "users",

@@ -40,15 +40,12 @@ function useProductList() {
             
             //如果有包含名称关键字的，则过滤
             if (inputname) {
-                console.log(inputname);
                 products = products.filter((Item) => {
                     return Item.name.toLowerCase().includes(inputname.toLowerCase())
                 }
                 )
             }
             setProductList(products)
-            console.log("过滤后的productlist：");
-            console.log(products);
 
         } catch (error) {
             console.log(error)

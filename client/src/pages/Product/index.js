@@ -1,6 +1,5 @@
-import { Card, Button, Select, Input, Modal, Table, Space, Form, message, Upload } from 'antd'
+import { Card, Button, Select, Input, Modal, Table, Space, Form, message, } from 'antd'
 import { EditOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
-//import img404 from '@/assets/error.png'
 import { useDispatch } from 'react-redux'
 import { Breadcrumb, Form as AntForm } from 'antd'
 import { useCategoryList } from '@/hooks/useCategoryList'
@@ -8,10 +7,9 @@ import { useUserList } from '@/hooks/useUserList'
 import { Link, useNavigate } from 'react-router-dom'
 import { request } from '@/utils'
 import { useProductList } from '@/hooks/useProductList'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './index.scss';
-import dayjs from 'dayjs';
+import formatTimestamp from '@/components/formatTimestamp'
 
 
 
@@ -38,10 +36,10 @@ const Product = () => {
     //分类ID到分类名的映射关系
     const [categoryNameMap, setCategoryNameMap] = useState({});
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchCategory();
         fetchUsers();
-    },[fetchCategory, fetchUsers])
+    }, [fetchCategory, fetchUsers])
 
     useEffect(() => {
         // 构建用户ID到用户名的映射关系
@@ -144,13 +142,6 @@ const Product = () => {
         fetchProducts();
     }
 
-    // 时间格式化函数
-    const formatTimestamp = (timestamp) => {
-        if (!timestamp) return '-'; // 如果没有值，返回一个默认提示
-        const date = new Date(timestamp);
-        return dayjs(timestamp).format('YYYY-MM-DD') // 使用本地化字符串格式，可以根据需要调整
-    };
-
     // 删除商品的功能,二次确认弹窗
     const handleDelete = async (productId) => {
         Modal.confirm({
@@ -192,9 +183,7 @@ const Product = () => {
             number: Number(values.number),
             updateUserId: currentUserId
         }
-
-        console.log('编辑商品:', updatedValues);
-
+        console.log("编辑商品", updatedValues);
 
         try {
             const resp = await request.patch(`/products/${currentProduct.id}`, updatedValues);

@@ -1,0 +1,18 @@
+// src/pages/AddCategory.scss
+.add_category_container {
+    padding: 20px;
+    margin-left: 200px;
+    margin-right: 200px;
+
+    .ant-card {
+        padding: 20px;
+    }
+
+    .ant-form-item-label {
+        font-weight: bold;
+    }
+
+    .ant-form-item-control {
+        margin-left: 0;
+    }
+}

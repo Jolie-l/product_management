@@ -23,8 +23,6 @@ function useUserList() {
             }
 
             setUserList(users); // 设置用户列表
-            console.log("过滤后的userlist");
-            console.log(users);
 
 
         } catch (error) {

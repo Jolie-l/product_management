@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 import { request } from "@/utils";
 import { message } from "antd";
 function useCategoryList() {
+
     const [categoryList, setCategoryList] = useState([]);
     const [loading, setLoading] = useState(false); // 添加加载状态
     const [error, setError] = useState(null); // 添加错误状态
+
     const fetchCategory = async (inputcreateUserId = '', inputname = '') => {
         setLoading(true); // 开始加载
         setError(null); // 清空之前的错误
@@ -34,8 +36,6 @@ function useCategoryList() {
             }
 
             setCategoryList(categories); // 设置用户列表
-            console.log("过滤后的categorieslist");
-            console.log(categories);
 
 
         } catch (error) {
