@@ -8,5 +8,6 @@ export class AuthEntity {
   @ApiProperty()
   accessToken: string;
 
-
+  @ApiProperty()
+  identity: string;
 }

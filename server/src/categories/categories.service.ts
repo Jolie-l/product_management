@@ -26,7 +26,7 @@ export class CategoriesService {
       include: {
         createUser: true,
         updateUser: true,
-        Product: true
+       
       }
     })
   }

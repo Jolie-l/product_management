@@ -13,36 +13,22 @@ const Login = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    /*   const [email, setEmail] = React.useState('');
-      const [password, setPassword] = React.useState('');
-      const [remember, setRemember] = React.useState(false);
-  
-      useEffect(() => {
-          // 组件加载时检查 localStorage
-          const savedEmail = localStorage.getItem('email');
-          console.log(savedEmail);
-          
-          const savedPassword = localStorage.getItem('password');
-          console.log(savedPassword);
-          
-  
-          if (savedEmail) {
-              setEmail(savedEmail);
-          }
-          if (savedPassword) {
-              setPassword(savedPassword);
-          }
-      }, []); */
-
 
     // 表单提交的回调函数
     const onFinish = async (values) => {
-    //触发异步action，fetchLogin，等异步请求完全成功后跳转到首页
-        await dispatch(fetchLogin(values))
-        //跳转到首页
-        navigate('/')
-        //弹窗提醒用户登录成功
-        message.success('登录成功')
+        try {
+            //触发异步action，fetchLogin，等异步请求完全成功后跳转到首页
+            await dispatch(fetchLogin(values))
+            //跳转到首页
+            navigate('/')
+         /*    //弹窗提醒用户登录成功
+            message.success('登录成功') */
+        } catch (error) {
+          
+            
+
+        }
+
     }
 
     return (
@@ -82,9 +68,6 @@ const Login = () => {
                         <Button type="primary" htmlType="submit" size="large" block>
                             登录
                         </Button>
-                        <Form.Item name="remember" valuePropName="checked">
-                            <Checkbox>记住密码</Checkbox>
-                        </Form.Item>
 
                         <Register />
 

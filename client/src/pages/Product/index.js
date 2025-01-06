@@ -41,6 +41,8 @@ const Product = () => {
         fetchUsers();
     }, [fetchCategory, fetchUsers])
 
+    
+    // 构建映射关系
     useEffect(() => {
         // 构建用户ID到用户名的映射关系
         const map = userList.reduce((acc, user) => {
@@ -61,7 +63,6 @@ const Product = () => {
     const columns = [
 
         { title: '商品名称', dataIndex: 'name' },
-        // { title: '商品描述', dataIndex: 'description' },
         {
             title: '分类', dataIndex: 'categoryId',
             render: (categoryId) => categoryNameMap[categoryId] || '-'
@@ -72,12 +73,10 @@ const Product = () => {
         },
         { title: '库存', dataIndex: 'number' },
         { title: '创建人', dataIndex: 'createUserId', render: (userId) => userNameMap[userId] || '-' },
-        //  { title: '更新人', dataIndex: 'updateUserId', render: (userId) => userNameMap[userId] || '-' },
         {
             title: '创建时间', dataIndex: 'createdAt', render: (text) => formatTimestamp(text),
             sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt), sortDescriptions: ['descend', 'ascend']
         },
-        //    { title: '更新时间', dataIndex: 'updatedAt', render: (text) => formatTimestamp(text), },
         {
             title: '操作',
             render: (data) => {

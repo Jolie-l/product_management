@@ -19,7 +19,7 @@ export class AuthService {
 
     // 如果用户不存在，抛出一个 NotFoundException
     if (!user) {
-      throw new NotFoundException(`No user found for email: ${email}`);
+      throw new NotFoundException('No user found');
     }
 
     // 2. 检查密码是否正确(使用 bcrypt 进行哈希处理)
@@ -34,6 +34,7 @@ export class AuthService {
     // 这里的 JWT 访问令牌包含了用户的 ID，以便在后续的请求中进行身份验证
     return {
       id:user.id,
+      identity:user.identity,
       accessToken: this.jwtService.sign({ userId: user.id }),
     };
   }

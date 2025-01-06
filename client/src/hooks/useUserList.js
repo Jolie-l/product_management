@@ -24,6 +24,9 @@ function useUserList() {
 
             setUserList(users); // 设置用户列表
 
+            console.log(users);
+            
+
 
         } catch (error) {
             console.log(error);

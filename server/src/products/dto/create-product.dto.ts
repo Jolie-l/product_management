@@ -5,7 +5,7 @@ export class CreateProductDto {
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    @MaxLength(50)
+    @MaxLength(30)
     name: string;
 
     @IsNumber()

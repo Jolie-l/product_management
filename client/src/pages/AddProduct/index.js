@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Select, message, Card, Breadcrumb } from 'antd';
+import { Button, Form, Input, Select, message, Card, Breadcrumb, Tooltip } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useCategoryList } from '@/hooks/useCategoryList';
 import { useUserList } from '@/hooks/useUserList';
@@ -8,17 +8,30 @@ import { Link, useNavigate } from 'react-router-dom';
 import './index.scss'
 
 const AddProduct = () => {
+
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
-    const userId = localStorage.getItem('id')
+
     const { categoryList, fetchCategory } = useCategoryList();
     const { userList, fetchUsers } = useUserList();
 
-    useEffect(()=>{
+    // 用户ID到用户名的映射关系
+    const [userNameMap, setUserNameMap] = useState({})
+
+    useEffect(() => {
         fetchCategory();
         fetchUsers();
-    },[fetchCategory, fetchUsers])
+    }, [fetchCategory, fetchUsers])
+
+    useEffect(() => {
+        // 构建用户ID到用户名的映射关系
+        const map = userList.reduce((acc, user) => {
+            acc[user.id] = user.name;
+            return acc;
+        }, {});
+        setUserNameMap(map);
+    }, [userList]);
 
 
     const onFinish = async (values) => {
@@ -63,17 +76,31 @@ const AddProduct = () => {
                 <Form form={form} layout="vertical" onFinish={onFinish} initialValues={{}}>
                     <Form.Item
                         name="name" label="商品名称"
-                        rules={[{ required: true, message: '请输入商品名称' }]}>
+                        rules={[
+                            { required: true, message: '请输入商品名称' },
+                            { max: 30, message: '商品名称不能超过30字' }
+                        ]}>
                         <Input />
                     </Form.Item>
                     <Form.Item
                         name="description" label="商品描述"
-                        rules={[{ message: '请输入商品描述' }]}>
-                        <Input />
+                        rules={[
+                            { message: '请输入商品描述' },
+                            { max: 200, message: '商品描述不能超过200字' }
+                        ]}>
+
+                        <Input.TextArea
+                            rows={5}
+                            maxLength={200} // 设置最大输入长度
+                            onChange={(e) => {
+                                form.setFieldsValue({ description: e.target.value })
+                            }}
+                        />
+
                     </Form.Item>
                     <Form.Item
                         name="categoryId" label="分类"
-                        rules={[{ required: true,message: '请选择分类' }]}>
+                        rules={[{ required: true, message: '请选择分类' }]}>
                         <Select
                             placeholder="请选择分类"
                             showSearch // 搜索功能
@@ -88,15 +115,6 @@ const AddProduct = () => {
                                     {item.name}
                                 </Select.Option>
                             ))}
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        name="createUserId" label="创建人"
-                        rules={[{ required: true, message: '请选择创建人' }]}
-                        initialValue={userId}>
-                        <Select
-                            disabled={true}
-                        >
                         </Select>
                     </Form.Item>
                     <Form.Item

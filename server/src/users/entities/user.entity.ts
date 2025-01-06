@@ -20,6 +20,9 @@ export class UserEntity implements User {
     name: string;
 
     @ApiProperty()
+    identity: string;
+
+    @ApiProperty()
     createdAt: Date;
 
     @ApiProperty()

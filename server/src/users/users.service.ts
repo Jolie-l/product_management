@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -11,13 +11,24 @@ export const roundsOfHashing = 10;
 export class UsersService {
   constructor(private prisma: PrismaService) { }
 
-  // 注册用户,密码加密
+  // 注册用户,验证邮箱,密码加密
   async create(createUserDto: CreateUserDto) {
+    const { email, password, name, identity } = createUserDto;
+    //检查邮箱是否已经存在
+    const userExists = await this.prisma.user.findUnique({ where: { email } })
+    if (userExists) {
+      throw new HttpException('email_already_exists', HttpStatus.BAD_REQUEST)
+    }
+
+    //密码加密
     const hashedPassword = await bcrypt.hash(
       createUserDto.password,
       roundsOfHashing,
     );
+
     createUserDto.password = hashedPassword;
+    createUserDto.identity=identity || 'Admin';
+
     return this.prisma.user.create({
       data: createUserDto,
     });
@@ -28,16 +39,10 @@ export class UsersService {
     return this.prisma.user.findMany();
   }
 
-  // 查询单个用户，包括创建的产品、更新的产品、创建的分类、更新的分类
+  // 查询单个用户
   findOne(id: number) {
     return this.prisma.user.findUnique({
       where: { id },
-      include: {
-        createdProduct: true,
-        updatedProduct: true,
-        createCategory: true,
-        updateCategory: true,
-      }
     })
   }
 

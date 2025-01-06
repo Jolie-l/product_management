@@ -1,4 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, NotFoundException, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get, Post, Body, Patch, Param,
+  Delete, ParseIntPipe, NotFoundException,
+  UseGuards, HttpException, HttpStatus
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -16,7 +21,21 @@ export class UsersController {
   @Post()
   @ApiCreatedResponse({ type: UserEntity })
   async create(@Body() createUserDto: CreateUserDto) {
-    return new UserEntity(await this.usersService.create(createUserDto));
+
+    try {
+      return new UserEntity(await this.usersService.create(createUserDto));
+    } catch (error) {
+      if (error instanceof HttpException) {
+        // 如果错误是HttpException，直接抛出
+        throw error;
+      } else if (error.message === 'email_already_exists') {
+        // 如果错误信息是'email_already_exists'，抛出特定的HttpException
+        throw new HttpException('email_already_exists', HttpStatus.BAD_REQUEST);
+      }
+      // 其他未知错误，抛出内部服务器错误
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+
   }
 
   @Get()

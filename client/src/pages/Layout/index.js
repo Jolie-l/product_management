@@ -1,10 +1,11 @@
-import { Layout, Menu, Popconfirm } from 'antd'
+import { Button, Layout, Menu, Popconfirm } from 'antd'
 import {
     HomeOutlined,
     DiffOutlined,
     EditOutlined,
     LogoutOutlined,
     SolutionOutlined,
+    UserOutlined
 } from '@ant-design/icons'
 import './index.scss'
 import { Outlet, useLocation } from 'react-router-dom'
@@ -12,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { fetchUserInfo } from '@/store/modules/user'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const { Header, Sider } = Layout
 
@@ -67,6 +69,8 @@ const GeekLayout = () => {
     const onConfirm = () => {
         //清除本地存储的token和用户信息
         localStorage.removeItem('token_key')
+        localStorage.removeItem('id')
+        localStorage.removeItem('identity')
         navigate('/login')
     }
 
@@ -76,7 +80,9 @@ const GeekLayout = () => {
             <Header className="header">
                 <div className="logo" />
                 <div className="user-info">
-                    <span className="user-name">{name}</span>
+                    <span className="user-name" >
+                        <Button onClick={()=>{navigate('/edit-current-user')}}><UserOutlined /> {name}</Button>
+                    </span>
                     <span className="user-logout">
                         <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消" onConfirm={onConfirm}>
                             <LogoutOutlined /> 退出

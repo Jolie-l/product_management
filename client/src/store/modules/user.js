@@ -3,6 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { request } from "@/utils";
 import { setToken as _setToken, getToken } from "@/utils";
+import { message } from "antd";
 
 const userStore = createSlice({
     name: "user",
@@ -11,6 +12,7 @@ const userStore = createSlice({
     initialState: {
         token: getToken() || '',
         id: '',
+        identity: '',
         userInfo: {}
     },
 
@@ -25,6 +27,10 @@ const userStore = createSlice({
             state.id = action.payload
             localStorage.setItem('id', action.payload)
         },
+        setIdentity(state, action) {
+            state.identity = action.payload
+            localStorage.setItem('identity', action.payload)
+        },
         setUserInfonfo(state, action) {
             state.userInfo = action.payload
         }
@@ -35,7 +41,7 @@ const userStore = createSlice({
 )
 
 //解构出actionCreator
-const { setToken, setId, setUserInfonfo } = userStore.actions
+const { setToken, setId, setUserInfonfo, setIdentity } = userStore.actions
 
 
 //获取reducer函数
@@ -47,24 +53,48 @@ const userReducer = userStore.reducer
 const fetchLogin = (loginForm) => {
     return async (dispatch) => {
 
-        //1.发送异步请求
-        const res = await request.post('/auth/login', loginForm)
+        try {
+            //1.发送异步请求
+            const res = await request.post('/auth/login', loginForm)
 
+            //2.提交同步action进行token的存入
+            dispatch(setToken(res.accessToken))
 
-        //2.提交同步action进行token的存入
-        dispatch(setToken(res.accessToken))
+            //3.登录的时候把用户信息id存入localStorage
+            dispatch(setId(res.id))
+            dispatch(setIdentity(res.identity))
+            message.success('登录成功')
+        } catch (error) {
+            console.log("登录错误:", error);
+            if (error.response && error.response.data.message === 'No user found') {
+                message.error('用户不存在')
+            }
+            if (error.response && error.response.data.message === 'Invalid password') {
+                message.error('密码错误')
+            }
 
-        //3.登录的时候把用户信息id存入localStorage
-        dispatch(setId(res.id))
+        }
+
     }
 }
 
 //注册
 const fetchRegister = (registerForm) => {
     return async (dispatch) => {
-        //1.发送异步请求
-        const res = await request.post('/users', registerForm)
-        console.log(res);
+        try {
+            //1.发送异步请求
+            const res = await request.post('/users', registerForm)
+        } catch (error) {
+            // 2. 捕获错误并抛出特定消息
+            console.log(error);
+
+            if (error.response && error.response.data.message === 'email_already_exists') {
+                throw { payload: { message: 'email_already_exists' } };
+            } else {
+                throw error;
+            }
+        }
+
     }
 }
 

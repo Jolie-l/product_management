@@ -5,11 +5,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { request } from '@/utils'
 import { useState, useEffect } from 'react'
 import './addCategory.scss'
-import formatTimestamp from '@/components/formatTimestamp'
 import { useUserList } from '@/hooks/useUserList'
 
 const AddCategory = () => {
-    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     // 获取用户列表
@@ -60,7 +58,7 @@ const AddCategory = () => {
             title={
                 <Breadcrumb items={[
                     { title: <Link to={'/'}>首页</Link> },
-                    { title: <Link to={'/category'}>分类管理</Link> },
+                    { title: <Link to={'/categories'}>分类管理</Link> },
                     { title: '新增分类' },
                 ]} />
             }
@@ -73,14 +71,20 @@ const AddCategory = () => {
                         <Input />
                     </Form.Item>
 
-                    <Form.Item name="description" label="描述">
-                        <Input.TextArea />
+                    <Form.Item name="description" label="描述" rules={[{ max: 200, message: '描述不能超过200字' }]}>
+                        <Input.TextArea
+                            rows={5}
+                            maxLength={200} // 设置最大输入长度
+                            onChange={(e) => {
+                                form.setFieldsValue({ description: e.target.value })
+                            }}
+                        />
                     </Form.Item>
 
                     <Form.Item name="createUserId" label="创建人" initialValue={parseInt(localStorage.getItem('id'), 10)}>
                         <Select disabled={true} style={{ width: 200 }}>
                             {userList.map(item => (
-                                <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
+                                <Select.Option key={item.id} value={item.id}> {userNameMap[item.id] || item.name}</Select.Option>
                             ))}
                         </Select>
                     </Form.Item>
@@ -89,7 +93,7 @@ const AddCategory = () => {
                         <Button type="primary" htmlType="submit" style={{ marginRight: 10 }}>
                             确认
                         </Button>
-                        <Button onClick={() => navigate('/category')}>
+                        <Button onClick={() => navigate('/categories')}>
                             取消
                         </Button>
                     </Form.Item>

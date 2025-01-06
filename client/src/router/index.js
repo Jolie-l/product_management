@@ -9,6 +9,8 @@ import User from "@/pages/User";
 import AddProduct from "@/pages/AddProduct";
 import ProductDetail from "@/pages/Product/ProductDetail";
 import AddCategory from "@/pages/Category/addCategory"
+import AddUser from "@/pages/User/addUser";
+import EditCurrentUser from "@/pages/Layout/editCurrentUser";
 
 
 //做路由配置
@@ -20,6 +22,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home />
+            },
+            {
+                path:"edit-current-user",
+                element:<EditCurrentUser/>
             },
             {
                 path: "products",
@@ -38,12 +44,16 @@ const router = createBrowserRouter([
                 element: <Category />
             },
             {
-                path:"add-category",
-                element:<AddCategory/>
+                path: "add-category",
+                element: <AddCategory />
             },
             {
                 path: "users",
                 element: <User />
+            },
+            {
+                path: "add-user",
+                element: <AddUser />
             },
         ]
     },

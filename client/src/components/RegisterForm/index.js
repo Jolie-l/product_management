@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form, Input } from 'antd';
+import { Modal, Button, Form, Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { fetchRegister } from '@/store/modules/user';
 
@@ -19,12 +19,24 @@ const Register = () => {
     };
 
     const onFinish = async (values) => {
-        // 发送请求到后端进行注册
-        await dispatch(fetchRegister(values))
 
-        // 提交成功后关闭弹窗
-        setIsVisible(false);
-        form.resetFields();  // 重置表单字段
+        try {
+            // 发送请求到后端进行注册
+            await dispatch(fetchRegister(values))
+
+            // 提交成功后关闭弹窗
+            setIsVisible(false);
+            message.success('注册成功！');
+            form.resetFields();  // 重置表单字段
+        } catch (error) {   
+            if (error.payload.message === 'email_already_exists') {
+                message.error('该邮箱已存在，请使用其他邮箱');
+         
+            } else {
+                message.error('注册失败，请重试');
+            }
+        }
+
     };
 
     return (

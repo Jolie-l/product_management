@@ -1,7 +1,7 @@
-import { Card, Button, Breadcrumb, Input, Form, Modal, InputNumber, message, Popover } from 'antd'
+import { Card, Button, Breadcrumb, Input, Form, Modal, message,  } from 'antd'
 import { Table, Space } from 'antd'
 import { Form as AntForm } from 'antd'
-import { EditOutlined, DeleteOutlined, EllipsisOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, EllipsisOutlined ,ZoomInOutlined,DoubleRightOutlined} from '@ant-design/icons'
 //import img404 from '@/assets/error.png'
 import { useDispatch } from 'react-redux'
 import { useCategoryList } from '@/hooks/useCategoryList'
@@ -26,6 +26,8 @@ const Category = () => {
 
     // 编辑分类列表相关状态
     const [currentCategory, setCurrentCategory] = useState(null)
+
+    //创建一个表单实体
     const [form] = Form.useForm();
 
     //获取分类列表
@@ -39,6 +41,7 @@ const Category = () => {
     //用户ID到用户名的映射关系
     const [userNameMap, setUserNameMap] = useState({});
 
+    // 商品描述模态框相关状态
     const [isDecModalVisible, setIsDecModalVisible] = useState(false)
     const [modalContent, setModalContent] = useState('')
 
@@ -65,7 +68,7 @@ const Category = () => {
                             {text.slice(0, 10)}
                             {text.length > 10 && (
                                 <>
-                                    ...
+                                    
                                     <EllipsisOutlined style={{ marginLeft: 8 }} onClick={() => showDesModal(record.description)} />
                                 </>
                             )}
@@ -113,14 +116,14 @@ const Category = () => {
         fetchCategory();
     }
 
-    //展示模态框
+    //展示编辑模态框
     const showModal = (category) => {
         setCurrentCategory(category)
         form.setFieldsValue(category) // 表单初始值
         setIsModalVisible(true)
     }
 
-    //表单提交函数
+    //编辑表单提交函数
     const handleEditFinish = async (values) => {
         if (!currentCategory) return;
 
@@ -171,15 +174,18 @@ const Category = () => {
         })
     };
 
+    //展示描述模态框
     const showDesModal = (description) => {
         setModalContent(description)
         setIsDecModalVisible(true)
     }
 
+    // 点击确认关闭描述模态框
     const handleDesOk = () => {
         setIsDecModalVisible(false)
     }
 
+    //点击取消关闭模态框
     const handleDesCancel = () => {
         setIsDecModalVisible(false)
     }
@@ -232,6 +238,7 @@ const Category = () => {
                     }} />
             </Card>
 
+            {/* 完整描述模态框 */}
             <Modal title="完整描述" visible={isDecModalVisible} onOk={handleDesOk} onCancel={handleDesCancel}>
                 <p>{modalContent}</p>
             </Modal>
@@ -240,6 +247,7 @@ const Category = () => {
             <Modal
                 title="编辑分类"
                 visible={isModalVisible}
+                onCancel={handleCancel}
                 footer={[
                     <Button key="back" onClick={handleCancel}>
                         取消
@@ -264,8 +272,15 @@ const Category = () => {
                     <AntForm.Item
                         name="description"
                         label="描述"
+                        rules={[{ max: 200, message: '描述不能超过200字' }]}
                     >
-                        <Input.TextArea />
+                        <Input.TextArea
+                            rows={5}
+                            maxLength={200} // 设置最大输入长度
+                            onChange={(e) => {
+                                form.setFieldsValue({ description: e.target.value })
+                            }}
+                        />
                     </AntForm.Item>
                     {/* 其他表单项根据需要添加 */}
                 </AntForm>
