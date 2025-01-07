@@ -1,0 +1,126 @@
+.home_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+}
+
+.welcome_card {
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    background-color: #f0f2f5;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.welcome_banner {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 16px;
+}
+
+.welcome_title {
+    color: #001529;
+    margin-bottom: 8px;
+}
+
+.welcome_text {
+    color: #595959;
+    margin-bottom: 16px;
+}
+
+.navigation_card {
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    background-color: #f0f2f5;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navigation_title {
+    color: #001529;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+.navigation_space {
+    padding: 0;
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    /* 使按钮均匀分布在卡片中 */
+    align-items: center;
+}
+
+.navigation_button {
+    width: 140px;
+    background-color: rgb(61, 144, 221);
+    border-radius: 8px;
+    margin-bottom: 0px;
+    margin-right: 8px;
+    height: 40px;
+    /* 可选：设置按钮的高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    /* 设置按钮文本颜色 */
+    text-align: center;
+    /* 确保文本在按钮中居中 */
+    border: none;
+    /* 可选：去除边框 */
+    cursor: pointer;
+    /* 设置鼠标悬停效果 */
+}
+
+.products_card {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    background-color: #f0f2f5;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.product_item {
+    width: 100%;
+   max-width: 450px;
+   height: 280px;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.9;
+    
+}
+.product_image {
+    width: 100%;
+    max-width: 180px;
+    margin-bottom: 0px;
+}
+.product_name {
+    color: #001529;
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.product_description {
+    color: #595959;
+    text-align: center;
+}
+
+
+.products_title {
+    color: #001529;
+    margin-bottom: 16px;
+    text-align: center;
+}

@@ -1,6 +1,6 @@
 import { Card, Button, Breadcrumb, Tooltip, Modal, Form, Input, message, Select } from 'antd'
 import { Table, Space, Form as AntForm } from 'antd'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined,PlusOutlined } from '@ant-design/icons'
 import { useUserList } from '@/hooks/useUserList'
 import { Link } from 'react-router-dom'
 import formatTimestamp from '@/components/formatTimestamp'
@@ -136,7 +136,7 @@ const User = () => {
                 {/* 新增按钮 */}
                 <div>
                     {userRole === 'SuperAdmin' && (
-                        <Button type='primary' onClick={() => navigate('/add-user')}>新增用户</Button>
+                        <Button type='primary' onClick={() => navigate('/add-user')}><PlusOutlined/>新增用户</Button>
                     )}
                 </div>
             </Card>

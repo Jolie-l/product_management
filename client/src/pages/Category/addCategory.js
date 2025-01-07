@@ -2,6 +2,7 @@
 import { Card, Button, Input, Form, message, Breadcrumb, Select } from 'antd'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import {PlusOutlined} from '@ant-design/icons'
 import { request } from '@/utils'
 import { useState, useEffect } from 'react'
 import './addCategory.scss'
@@ -19,7 +20,7 @@ const AddCategory = () => {
 
     useEffect(() => {
         fetchUsers()
-    }, [fetchUsers])
+    }, [])
 
     useEffect(() => {
         // 构建用户ID到用户名的映射关系
@@ -89,9 +90,9 @@ const AddCategory = () => {
                         </Select>
                     </Form.Item>
 
-                    <Form.Item style={{ textAlign: 'right' }}>
+                    <Form.Item style={{ textAlign: 'left' , marginTop: 40 }}>
                         <Button type="primary" htmlType="submit" style={{ marginRight: 10 }}>
-                            确认
+                            <PlusOutlined/>确认新增
                         </Button>
                         <Button onClick={() => navigate('/categories')}>
                             取消

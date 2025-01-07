@@ -1,7 +1,7 @@
-import { Card, Button, Breadcrumb, Input, Form, Modal, message,  } from 'antd'
+import { Card, Button, Breadcrumb, Input, Form, Modal, message, } from 'antd'
 import { Table, Space } from 'antd'
 import { Form as AntForm } from 'antd'
-import { EditOutlined, DeleteOutlined, EllipsisOutlined ,ZoomInOutlined,DoubleRightOutlined} from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, EllipsisOutlined, PlusOutlined,DoubleRightOutlined} from '@ant-design/icons'
 //import img404 from '@/assets/error.png'
 import { useDispatch } from 'react-redux'
 import { useCategoryList } from '@/hooks/useCategoryList'
@@ -68,8 +68,8 @@ const Category = () => {
                             {text.slice(0, 10)}
                             {text.length > 10 && (
                                 <>
-                                    
-                                    <EllipsisOutlined style={{ marginLeft: 8 }} onClick={() => showDesModal(record.description)} />
+...
+                                    <DoubleRightOutlined style={{ marginLeft: 8 }} onClick={() => showDesModal(record.description)} />
                                 </>
                             )}
                         </>
@@ -211,8 +211,10 @@ const Category = () => {
                         style={{ width: 300, marginBottom: 20 }} // 可适当设置样式
                     />
                     <Button
+                        
+                        type='primary'
                         onClick={handleCancelSearch}
-                        style={{ marginLeft: 10 }} // 调整左侧边距
+                        style={{ marginLeft: 30 }} // 调整左侧边距
                     >
                         重置
                     </Button>
@@ -220,7 +222,7 @@ const Category = () => {
 
                 {/* 新增按钮 */}
                 <div>
-                    <Button type='primary' onClick={() => navigate('/add-category')}>新增分类</Button>
+                    <Button type='primary' onClick={() => navigate('/add-category')}><PlusOutlined/>新增分类</Button>
                 </div>
 
             </Card>

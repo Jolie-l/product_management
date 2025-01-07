@@ -1,6 +1,5 @@
 import { Card, Button, Select, Input, Modal, Table, Space, Form, message, } from 'antd'
-import { EditOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
-import { useDispatch } from 'react-redux'
+import { EditOutlined, DeleteOutlined, QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Breadcrumb, Form as AntForm } from 'antd'
 import { useCategoryList } from '@/hooks/useCategoryList'
 import { useUserList } from '@/hooks/useUserList'
@@ -15,8 +14,6 @@ import formatTimestamp from '@/components/formatTimestamp'
 
 
 const Product = () => {
-
-    const dispatch = useDispatch()
 
     const navigate = useNavigate()
 
@@ -39,9 +36,9 @@ const Product = () => {
     useEffect(() => {
         fetchCategory();
         fetchUsers();
-    }, [fetchCategory, fetchUsers])
+    }, [])
 
-    
+
     // 构建映射关系
     useEffect(() => {
         // 构建用户ID到用户名的映射关系
@@ -116,12 +113,9 @@ const Product = () => {
     const [currentProduct, setCurrentProduct] = useState(null)
     const [form] = AntForm.useForm();
 
-
     //筛选功能实现
     const onFinish = (formValue) => {
-        console.log(formValue.createUserId, formValue.categoryId)
-        //将筛选条件放入请求参数中
-        // 根据筛选条件调用 fetchProducts
+        // 将筛选条件放入请求参数中,根据筛选条件调用 fetchProducts
         fetchProducts(formValue.categoryId, formValue.createUserId);
     }
 
@@ -257,21 +251,23 @@ const Product = () => {
                     {/* 添加搜索框 */}
                     <div>
                         <Search
+                            
                             placeholder="请输入商品名称"
                             onSearch={onSearch}
                             enterButton
                             style={{ width: 300, marginBottom: 20 }} // 可适当设置样式
                         />
                         <Button
+                            type="primary"
                             onClick={handleCancelSearch}
-                            style={{ marginLeft: 10 }} // 调整左侧边距
+                            style={{ marginLeft: 30 }} // 调整左侧边距
                         >
                             重置
                         </Button>
                     </div>
                     {/* 新增按钮 */}
                     <div>
-                        <Button type='primary' onClick={() => navigate('/add-product')}>新增商品</Button>
+                        <Button type='primary' onClick={() => navigate('/add-product')}><PlusOutlined /> 新增商品</Button>
                     </div>
                 </Form>
             </Card>

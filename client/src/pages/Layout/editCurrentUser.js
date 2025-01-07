@@ -1,6 +1,6 @@
 // src/pages/EditCurrentUser.js
 import React, { useEffect, useState } from 'react'
-import { Button, Form, Input, message, Space } from 'antd'
+import { Button, Card, Form, Input, message, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { request } from '@/utils'
 import './editCurrentUser.scss'
@@ -80,31 +80,35 @@ const EditCurrentUser = () => {
     }
 
     return (
-        <div className='edit_current_user_container'>
-            <h2>修改个人信息</h2>
-            <Form
-                form={form}
-                layout="vertical"
-                onFinish={handleEdit}
-                initialValues={userInfo}
-            >
-                <Form.Item name="name" label="用户名" rules={[{ required: true, message: '请输入用户名' }]}>
-                    <Input />
-                </Form.Item>
-                <Form.Item name="email" label="邮箱" rules={[{ required: true, message: '请输入邮箱' }, { type: 'email', message: '请输入有效的邮箱地址!' }]}>
-                    <Input />
-                </Form.Item>
-                <Form.Item name="password" label="密码" rules={[{ required: true, message: '请输入密码!' }, { min: 6, message: '密码长度至少6位!' }, { max: 20, message: '密码长度不能超过20位!' }]}>
-                    <Input.Password />
-                </Form.Item>
-                <Form.Item style={{ textAlign: 'right' }}>
-                    <Space size="middle">
-                        <Button type="primary" htmlType="submit">保存</Button>
-                        <Button onClick={handleCancel}>取消</Button>
-                    </Space>
-                </Form.Item>
-            </Form>
-        </div>
+
+        <Card >
+            <div className='edit_current_user_container'>
+                <h2>修改个人信息</h2>
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={handleEdit}
+                    initialValues={userInfo}
+                >
+                    <Form.Item name="name" label="用户名" rules={[{ required: true, message: '请输入用户名' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="email" label="邮箱" rules={[{ required: true, message: '请输入邮箱' }, { type: 'email', message: '请输入有效的邮箱地址!' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="password" label="密码" rules={[{ required: true, message: '请输入密码!' }, { min: 6, message: '密码长度至少6位!' }, { max: 20, message: '密码长度不能超过20位!' }]}>
+                        <Input.Password />
+                    </Form.Item>
+                    <Form.Item style={{ textAlign: 'left' }}>
+                        <Space size="middle">
+                            <Button type="primary" htmlType="submit">保存</Button>
+                            <Button onClick={handleCancel}>取消</Button>
+                        </Space>
+                    </Form.Item>
+                </Form>
+            </div>
+        </Card>
+
     )
 }
 

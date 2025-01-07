@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import './index.scss'
-import { Card, Form, Input, Button, message, Checkbox } from 'antd'
-import logo from '@/assets/logo.jpg'
+import { Card, Form, Input, Button,} from 'antd'
+
+import logo from '@/assets/logo.png'
 import { useDispatch } from 'react-redux'
 import { fetchLogin } from '@/store/modules/user'
 import { useNavigate } from 'react-router-dom'
@@ -21,11 +22,9 @@ const Login = () => {
             await dispatch(fetchLogin(values))
             //跳转到首页
             navigate('/')
-         /*    //弹窗提醒用户登录成功
-            message.success('登录成功') */
+            /*    //弹窗提醒用户登录成功
+               message.success('登录成功') */
         } catch (error) {
-          
-            
 
         }
 
@@ -65,12 +64,13 @@ const Login = () => {
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" size="large" block>
+                        <Button type="primary" htmlType="submit" size="large" block className='login-btn'>
                             登录
                         </Button>
 
-                        <Register />
-
+                        <div className='register-btn'>
+                            <Register  /> 
+                        </div>
                     </Form.Item>
                 </Form>
             </Card>

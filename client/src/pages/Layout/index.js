@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { fetchUserInfo } from '@/store/modules/user'
 import { useDispatch, useSelector } from 'react-redux'
+import logo from '@/assets/logo.png'
 import { Link } from 'react-router-dom'
 
 const { Header, Sider } = Layout
@@ -78,7 +79,8 @@ const GeekLayout = () => {
         <Layout className="layout-container">
             {/* 顶部 */}
             <Header className="header">
-                <div className="logo" />
+               {/*  <div className="logo" /> */}
+               <img className="logo" src={logo} alt="" />
                 <div className="user-info">
                     <span className="user-name" >
                         <Button onClick={()=>{navigate('/edit-current-user')}}><UserOutlined /> {name}</Button>

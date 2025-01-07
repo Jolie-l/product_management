@@ -8,14 +8,14 @@ function useCategoryList() {
     const [loading, setLoading] = useState(false); // 添加加载状态
     const [error, setError] = useState(null); // 添加错误状态
 
-    const fetchCategory = async (inputcreateUserId = '', inputname = '') => {
+    const fetchCategory = async (inputcreateUserId = '', inputname = '',page=1,pageSize=8) => {
         setLoading(true); // 开始加载
         setError(null); // 清空之前的错误
         try {
             const res = await request.get('/categories')
             let categories = res
 
-            //如果有创建者id，则过滤
+   /*          //如果有创建者id，则过滤
             if (inputcreateUserId) {
                 categories = categories.filter((Item) => {
                     // 如果categoryId未定义，跳过该产品
@@ -24,7 +24,7 @@ function useCategoryList() {
                     }
                     return Item.createUserId === inputcreateUserId;
                 })
-            }
+            } */
 
             //如果有包含名称关键字的，则过滤
             if (inputname) {
@@ -35,7 +35,7 @@ function useCategoryList() {
                 )
             }
 
-            setCategoryList(categories); // 设置用户列表
+            setCategoryList(categories); // 设置分类列表
 
 
         } catch (error) {
@@ -52,7 +52,8 @@ function useCategoryList() {
     // 设定一个副作用来读取初始数据
     useEffect(() => {
         fetchCategory();
-    }, [])// 依赖数组为空，表示只在挂载时调用一次
+        // 依赖数组为空，表示只在挂载时调用一次
+    }, [])
 
     return { categoryList, fetchCategory }
 }

@@ -1,5 +1,6 @@
 // src/pages/AddUser.js
 import { Button, Form, Input, Select, message, Breadcrumb, Space, Card } from 'antd'
+import {PlusOutlined} from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { request } from '@/utils'
 import { useNavigate } from 'react-router-dom'
@@ -72,9 +73,9 @@ const AddUser = () => {
                             <Select.Option value="Admin">Admin</Select.Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item>
+                    <Form.Item style={{marginTop: 40}}>
                         <Space size="middle">
-                            <Button type="primary" htmlType="submit">保存</Button>
+                            <Button type="primary" htmlType="submit"><PlusOutlined/>确认新增</Button>
                             <Button onClick={handleCancel}>取消</Button>
                         </Space>
                     </Form.Item>

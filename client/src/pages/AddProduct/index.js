@@ -22,7 +22,7 @@ const AddProduct = () => {
     useEffect(() => {
         fetchCategory();
         fetchUsers();
-    }, [fetchCategory, fetchUsers])
+    }, [])
 
     useEffect(() => {
         // 构建用户ID到用户名的映射关系
@@ -129,7 +129,7 @@ const AddProduct = () => {
                         { type: 'number', transform: (value) => parseInt(value) }]}>
                         <Input type="number" />
                     </Form.Item>
-                    <Form.Item>
+                    <Form.Item style={{marginTop: 40}}>
                         <Button type="primary" htmlType="submit" loading={loading} icon={<PlusOutlined />}>
                             确认新增
                         </Button>

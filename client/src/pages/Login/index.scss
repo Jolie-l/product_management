@@ -7,10 +7,10 @@
     background: center/cover url('~@/assets/login-bg.jpg') ;
    
     .login-logo {
-      width: 200px;
+      width: 245px;
       height: 60px;
       display: block;
-      margin: 0 auto 20px;
+    margin: 0 auto 20px;
     }
   
     .login-container {
@@ -21,11 +21,22 @@
       top: 50%;
       transform: translate(-50%, -50%);
       box-shadow: 0 0 50px rgb(0 0 0 / 10%);
-    
+      opacity: 0.9;
+    background-color: #f8f8f8;
     }
   
     .login-checkbox-label {
       color: #591d51;
+    }
+
+    .login-btn{
+      margin-bottom: 15px;
+      margin-top: 10px;
+    }
+
+    .register-btn{
+      display: flex;
+      justify-content: flex-end;
     }
   }
   

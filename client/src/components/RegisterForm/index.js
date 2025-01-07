@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form, Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { fetchRegister } from '@/store/modules/user';
+import {ArrowRightOutlined} from '@ant-design/icons'
 
 
 const Register = () => {
@@ -41,8 +42,8 @@ const Register = () => {
 
     return (
         <div>
-            <Button type="primary" onClick={showModal}>
-                注册
+            <Button type="link" onClick={showModal}>
+                去注册 <ArrowRightOutlined/>
             </Button>
 
             <Modal
