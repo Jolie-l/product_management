@@ -2,11 +2,11 @@
 // 用于判断是否有token，如果有token，则渲染对应页面，否则跳转到登录页面
 import { getToken } from "@/utils";
 import { Navigate } from "react-router-dom";
-export function AuthRouter({children}){
+export function AuthRouter({ children }) {
     const token = getToken();
-    if(token){
+    if (token) {
         return <>{children}</>
-    }else{
-        return <Navigate to="/login" replace/>
+    } else {
+        return <Navigate to="/login" replace />
     }
 }

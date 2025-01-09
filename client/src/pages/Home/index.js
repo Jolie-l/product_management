@@ -74,7 +74,7 @@ const Home = () => {
                     </Link>
                     <Link to="/edit-current-user">
                         <Button type="primary" size="large" className="navigation_button">
-                            修改个人用户信息
+                            修改用户个人信息
                         </Button>
                     </Link>
                 </Space>

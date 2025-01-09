@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    image: pm-server
+    working_dir: /app
+    command: node dist/main.js
+    ports:
+      - "8000:8000"
+    environment:
+      NODE_ENV: production
+      JWT_SECRET: "Jolie-secret-key"
+      DATABASE_URL: postgresql://postgres:123456@db:5432/pm-db?schema=public
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: pm-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      
+volumes:
+  pg-data:

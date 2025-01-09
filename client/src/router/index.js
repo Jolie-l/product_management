@@ -6,7 +6,7 @@ import Home from "@/pages/Home";
 import Product from "@/pages/Product";
 import Category from "@/pages/Category";
 import User from "@/pages/User";
-import AddProduct from "@/pages/AddProduct";
+import AddProduct from "@/pages/Product/addProduct";
 import ProductDetail from "@/pages/Product/ProductDetail";
 import AddCategory from "@/pages/Category/addCategory"
 import AddUser from "@/pages/User/addUser";

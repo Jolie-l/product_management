@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import './index.scss'
-import { Card, Form, Input, Button,} from 'antd'
-
+import { Card, Form, Input, Button, } from 'antd'
 import logo from '@/assets/logo.png'
 import { useDispatch } from 'react-redux'
 import { fetchLogin } from '@/store/modules/user'
@@ -69,7 +68,7 @@ const Login = () => {
                         </Button>
 
                         <div className='register-btn'>
-                            <Register  /> 
+                            <Register />
                         </div>
                     </Form.Item>
                 </Form>

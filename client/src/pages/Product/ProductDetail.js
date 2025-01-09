@@ -9,11 +9,15 @@ import { useUserList } from '@/hooks/useUserList';
 import './ProductDetail.scss'
 
 const ProductDetail = () => {
+
+    //使用useParams获取路径参数中的商品ID
     const { productId } = useParams();
-    console.log("商品id：" + productId);
+
     const id = parseInt(productId);
 
     const navigate = useNavigate();
+
+    //useState是组件状态管理函数，当变量发生变化时，组件会重新渲染
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -29,6 +33,7 @@ const ProductDetail = () => {
     //分类ID到分类名的映射关系
     const [categoryNameMap, setCategoryNameMap] = useState({});
 
+    //构建映射
     useEffect(() => {
         // 构建用户ID到用户名的映射关系
         const map = userList.reduce((acc, user) => {
@@ -45,6 +50,7 @@ const ProductDetail = () => {
         setCategoryNameMap(categoryMap);
     }, [userList, categoryList]);
 
+    //根据商品ID获取商品详情
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -63,12 +69,6 @@ const ProductDetail = () => {
         fetchProduct();
     }, [productId]);
 
-    const handleEdit = () => {
-        navigate(`/edit-product/${productId}`);
-    };
-
-
-
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -78,17 +78,17 @@ const ProductDetail = () => {
     }
 
     return (
-            <Card
-                title={
-                    <Breadcrumb items={[
-                        { title: <Link to={'/'}>首页</Link> },
-                        { title: <Link to={'/products'}>商品列表</Link> },
-                        { title: '商品详情' },
-                    ]} />
-                }
-                style={{ marginBottom: 20 }}
-            >
-        <div className='product-detail_container'>
+        <Card
+            title={
+                <Breadcrumb items={[
+                    { title: <Link to={'/'}>首页</Link> },
+                    { title: <Link to={'/products'}>商品列表</Link> },
+                    { title: '商品详情' },
+                ]} />
+            }
+            style={{ marginBottom: 20 }}
+        >
+            <div className='product-detail_container'>
                 <Descriptions title={product.name} column={1}>
                     <Descriptions.Item label="商品名称">{product.name}</Descriptions.Item>
                     <Descriptions.Item label="商品描述">{product.description}</Descriptions.Item>
@@ -101,11 +101,11 @@ const ProductDetail = () => {
                     <Descriptions.Item label="更新时间">{dayjs(product.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</Descriptions.Item>
                 </Descriptions>
 
-        </div>
-            <Button type="link" icon={<ArrowLeftOutlined />} onClick={()=>navigate('/products')} style={{ marginBottom: 20 }}>
+            </div>
+            <Button type="link" icon={<ArrowLeftOutlined />} onClick={() => navigate('/products')} style={{ marginBottom: 20 }}>
                 返回商品列表
             </Button>
-            </Card>
+        </Card>
     );
 };
 

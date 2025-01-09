@@ -15,11 +15,11 @@ import formatTimestamp from '@/components/formatTimestamp'
 
 const Product = () => {
 
+    //编程式导航
     const navigate = useNavigate()
 
-
     //获取商品列表
-    const { productList, fetchProducts, } = useProductList(); // 获取产品列表和函数
+    const { productList, fetchProducts, } = useProductList();
 
     //获取分类列表
     const { categoryList, fetchCategory } = useCategoryList()
@@ -33,13 +33,13 @@ const Product = () => {
     //分类ID到分类名的映射关系
     const [categoryNameMap, setCategoryNameMap] = useState({});
 
+    //页面加载完成后，获取一次分类列表和用户列表
     useEffect(() => {
         fetchCategory();
         fetchUsers();
     }, [])
 
-
-    // 构建映射关系
+    //构建映射关系
     useEffect(() => {
         // 构建用户ID到用户名的映射关系
         const map = userList.reduce((acc, user) => {
@@ -54,7 +54,7 @@ const Product = () => {
             return acc;
         }, {});
         setCategoryNameMap(categoryMap);
-    }, [userList, categoryList]);
+    }, [userList, categoryList]);  // 当 userList 或 categoryList 变化时，重新构建映射关系
 
     //准备列表的列数据
     const columns = [
@@ -133,6 +133,7 @@ const Product = () => {
     // 取消搜索功能
     const handleCancelSearch = () => {
         fetchProducts();
+        form.resetFields(['search']); // 清空表单
     }
 
     // 删除商品的功能,二次确认弹窗
@@ -201,6 +202,7 @@ const Product = () => {
             {/* 顶部功能区域 */}
             <Card
                 title={
+                    //面包屑导航
                     <Breadcrumb items={[
                         { title: <Link to={'/'}>首页</Link> },
                         { title: '商品管理' },
@@ -209,7 +211,7 @@ const Product = () => {
                 style={{ marginBottom: 20 }}
             >
                 <Form initialValues={{ status: '' }} onFinish={onFinish}>
-                    {/* 分类、创建人、搜索框 */}
+                    {/* 分类、创建人 */}
                     <div >
                         <Form.Item label="分类" name="categoryId" className="select">
                             <Select
@@ -250,21 +252,24 @@ const Product = () => {
 
                     {/* 添加搜索框 */}
                     <div>
-                        <Search
-                            
-                            placeholder="请输入商品名称"
-                            onSearch={onSearch}
-                            enterButton
-                            style={{ width: 300, marginBottom: 20 }} // 可适当设置样式
-                        />
-                        <Button
-                            type="primary"
-                            onClick={handleCancelSearch}
-                            style={{ marginLeft: 30 }} // 调整左侧边距
-                        >
-                            重置
-                        </Button>
+                        <Form.Item name={"search"}>
+                            <Search
+                                placeholder="请输入商品名称"
+                                onSearch={onSearch}
+                                enterButton
+                                style={{ width: 300, marginBottom: 20 }} 
+                            />
+                            <Button
+                                type="primary"
+                                htmlType='reset'
+                                onClick={handleCancelSearch}
+                                style={{ marginLeft: 30 }}
+                            >
+                                重置
+                            </Button>
+                        </Form.Item>
                     </div>
+
                     {/* 新增按钮 */}
                     <div>
                         <Button type='primary' onClick={() => navigate('/add-product')}><PlusOutlined /> 新增商品</Button>
@@ -306,13 +311,6 @@ const Product = () => {
                             {categoryList.map(item => <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>)}
                         </Select>
                     </AntForm.Item>
-                    <AntForm.Item name="createUserId" label="创建人" rules={[{ required: true, message: '请选择创建人' }]} initialValue={currentProduct ? currentProduct.createUserId : null} >
-                        <Select
-                            disabled={true} // 禁用该字段
-                        >
-
-                        </Select>
-                    </AntForm.Item>
                     <AntForm.Item name="price" label="价格" rules={[{ required: true, message: '请输入价格' },
                     { type: 'number', transform: (value) => parseInt(value) }
                     ]}>
@@ -334,10 +332,14 @@ const Product = () => {
                     //分页功能
                     pagination={{
                         pageSize: 8,
+                        showTotal: (total, range) => `共 ${total} 条数据`,
                         onChange: (page, pageSize) => {
                             fetchProducts(null, null, null, page, pageSize)
                         }
-                    }} />
+                    }}
+
+
+                />
             </Card>
 
 

@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CategoriesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   //添加分类
   create(createCategoryDto: CreateCategoryDto) {
@@ -14,7 +14,7 @@ export class CategoriesService {
     })
   }
 
-    //查询所有分类
+  //查询所有分类
   findAll() {
     return this.prisma.category.findMany();
   }
@@ -26,7 +26,7 @@ export class CategoriesService {
       include: {
         createUser: true,
         updateUser: true,
-       
+
       }
     })
   }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form, Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { fetchRegister } from '@/store/modules/user';
-import {ArrowRightOutlined} from '@ant-design/icons'
+import { ArrowRightOutlined } from '@ant-design/icons'
 
 
 const Register = () => {
@@ -29,10 +29,10 @@ const Register = () => {
             setIsVisible(false);
             message.success('注册成功！');
             form.resetFields();  // 重置表单字段
-        } catch (error) {   
+        } catch (error) {
             if (error.payload.message === 'email_already_exists') {
                 message.error('该邮箱已存在，请使用其他邮箱');
-         
+
             } else {
                 message.error('注册失败，请重试');
             }
@@ -43,7 +43,7 @@ const Register = () => {
     return (
         <div>
             <Button type="link" onClick={showModal}>
-                去注册 <ArrowRightOutlined/>
+                去注册 <ArrowRightOutlined />
             </Button>
 
             <Modal

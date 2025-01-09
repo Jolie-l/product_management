@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { getToken } from './token'
 import router from '@/router'
+import { message } from 'antd'
 const request = axios.create({
     //1.根域名配置
     baseURL: 'http://localhost:8000',
@@ -34,8 +35,9 @@ request.interceptors.response.use((response) => {
         localStorage.removeItem('id')
         //跳转到登录页面
         router.navigate('/login')
+        message.error('登录过期，请重新登录')
         //刷新页面
-        window.location.reload()
+        //window.location.reload()
     }
     return Promise.reject(error)
 })

@@ -15,17 +15,6 @@ function useCategoryList() {
             const res = await request.get('/categories')
             let categories = res
 
-   /*          //如果有创建者id，则过滤
-            if (inputcreateUserId) {
-                categories = categories.filter((Item) => {
-                    // 如果categoryId未定义，跳过该产品
-                    if (Item.createUserId === undefined) {
-                        return false;
-                    }
-                    return Item.createUserId === inputcreateUserId;
-                })
-            } */
-
             //如果有包含名称关键字的，则过滤
             if (inputname) {
                 console.log(inputname);
@@ -34,8 +23,14 @@ function useCategoryList() {
                 }
                 )
             }
+            //排序
+            const sortedCategories = categories.sort((a, b) => {
+                const timeA = new Date(a.createdAt).getTime();
+                const timeB = new Date(b.createdAt).getTime();
+                return timeB - timeA;
+            })
 
-            setCategoryList(categories); // 设置分类列表
+            setCategoryList(sortedCategories); // 设置分类列表
 
 
         } catch (error) {

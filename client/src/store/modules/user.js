@@ -80,10 +80,10 @@ const fetchLogin = (loginForm) => {
 
 //注册
 const fetchRegister = (registerForm) => {
-    return async (dispatch) => {
+    return async () => {
         try {
             //1.发送异步请求
-            const res = await request.post('/users', registerForm)
+            await request.post('/users', registerForm)
         } catch (error) {
             // 2. 捕获错误并抛出特定消息
             console.log(error);

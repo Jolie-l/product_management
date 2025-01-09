@@ -47,7 +47,7 @@ export class UsersController {
     return users.map(user => new UserEntity(user));
   }
 
-  //做错误处理，如果product不存在，则抛出NotFoundException
+  //做错误处理，如果user不存在，则抛出NotFoundException
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()

@@ -24,7 +24,6 @@ function useProductList() {
                     }
                     return Item.categoryId === inputcategoryId;
                 })
-
             }
 
             //如果有创建者id，则过滤
@@ -37,7 +36,7 @@ function useProductList() {
                     return Item.createUserId === inputcreateUserId;
                 })
             }
-            
+
             //如果有包含名称关键字的，则过滤
             if (inputname) {
                 products = products.filter((Item) => {
@@ -45,7 +44,17 @@ function useProductList() {
                 }
                 )
             }
-            setProductList(products)
+
+            //对获取到的数据进行排序
+            const sortedProducts = products.sort((a, b) => {
+                const timeA = new Date(a.createdAt).getTime();
+                const timeB = new Date(b.createdAt).getTime();
+                return timeB - timeA;
+
+            })
+            setProductList(sortedProducts)
+
+
 
         } catch (error) {
             console.log(error)
@@ -58,12 +67,12 @@ function useProductList() {
 
     }
 
-    // 设定一个副作用来读取初始数据
+    //读取初始数据
     useEffect(() => {
         fetchProducts(); // 可以在插入后去获取最初的产品列表
     }, []); // 依赖数组为空，表示只在挂载时调用一次
 
-    return { productList, fetchProducts}; // 返回loading和error状态
+    return { productList, fetchProducts }; 
 }
 
 export { useProductList }

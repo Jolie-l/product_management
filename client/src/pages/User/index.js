@@ -7,6 +7,7 @@ import formatTimestamp from '@/components/formatTimestamp'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { request } from '@/utils'
+import { useSelector } from 'react-redux'
 
 
 const User = () => {
@@ -147,6 +148,7 @@ const User = () => {
                    //分页功能
                    pagination={{
                     pageSize: 8,
+                    showTotal: (total, range) => `共 ${total} 条数据`,
                     onChange: (page, pageSize) => {
                         fetchUsers( page, pageSize)
                     }

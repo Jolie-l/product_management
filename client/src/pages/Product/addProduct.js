@@ -5,35 +5,25 @@ import { useCategoryList } from '@/hooks/useCategoryList';
 import { useUserList } from '@/hooks/useUserList';
 import { request } from '@/utils';
 import { Link, useNavigate } from 'react-router-dom';
-import './index.scss'
+import './addProduct.scss'
 
 const AddProduct = () => {
 
     const navigate = useNavigate();
+
+    //获取一个表单实体
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
     const { categoryList, fetchCategory } = useCategoryList();
     const { userList, fetchUsers } = useUserList();
 
-    // 用户ID到用户名的映射关系
-    const [userNameMap, setUserNameMap] = useState({})
-
     useEffect(() => {
         fetchCategory();
         fetchUsers();
     }, [])
 
-    useEffect(() => {
-        // 构建用户ID到用户名的映射关系
-        const map = userList.reduce((acc, user) => {
-            acc[user.id] = user.name;
-            return acc;
-        }, {});
-        setUserNameMap(map);
-    }, [userList]);
-
-
+    //点击确认新增按钮
     const onFinish = async (values) => {
         setLoading(true);
         try {
@@ -56,6 +46,34 @@ const AddProduct = () => {
 
             // 跳转回商品列表页面
             navigate('/products');
+        } catch (error) {
+            console.error('新增商品失败:', error);
+            message.error('新增商品失败');
+            setLoading(false);
+        }
+    };
+
+    //点击继续添加按钮
+    const continueAdd = async () => {
+        const values = form.getFieldsValue();
+        try {
+            // 自动设置创建人为当前用户
+            const currentUserId = parseInt(localStorage.getItem('id'));
+            const newProduct = {
+                ...values,
+                price: Number(values.price),
+                number: Number(values.number),
+                createUserId: currentUserId,
+                updateUserId: currentUserId,
+            };
+
+            // 发送新增商品请求到后端
+            await request.post('/products', newProduct);
+            message.success('新增商品成功');
+            setLoading(false);
+
+            // 重置表单
+            form.resetFields();
         } catch (error) {
             console.error('新增商品失败:', error);
             message.error('新增商品失败');
@@ -129,12 +147,15 @@ const AddProduct = () => {
                         { type: 'number', transform: (value) => parseInt(value) }]}>
                         <Input type="number" />
                     </Form.Item>
-                    <Form.Item style={{marginTop: 40}}>
+                    <Form.Item style={{ marginTop: 40 }}>
                         <Button type="primary" htmlType="submit" loading={loading} icon={<PlusOutlined />}>
                             确认新增
                         </Button>
                         <Button style={{ marginLeft: 10 }} onClick={() => navigate('/products')}>
                             取消
+                        </Button>
+                        <Button type='primary' style={{ float: 'right' }} onClick={() => { continueAdd() }}>
+                            继续添加
                         </Button>
                     </Form.Item>
                 </Form>

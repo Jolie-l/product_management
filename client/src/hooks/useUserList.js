@@ -22,9 +22,13 @@ function useUserList() {
                 )
             }
 
-            setUserList(users); // 设置用户列表
-            
-
+            //排序
+            const sortedUser = users.sort((a, b) => {
+                const timeA = new Date(a.createdAt).getTime();
+                const timeB = new Date(b.createdAt).getTime();
+                return timeB - timeA;
+            })
+            setUserList(sortedUser); // 设置用户列表
 
         } catch (error) {
             console.log(error);
@@ -34,15 +38,14 @@ function useUserList() {
         } finally {
             setLoading(false); // 加载结束
         }
-
     }
 
-    // 设定一个副作用来读取初始数据
+    // 读取初始数据
     useEffect(() => {
         fetchUsers();
     }, [])// 依赖数组为空，表示只在挂载时调用一次
 
-    return { userList,  fetchUsers }
+    return { userList, fetchUsers }
 }
 
 export { useUserList }

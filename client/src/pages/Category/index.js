@@ -234,6 +234,7 @@ const Category = () => {
                     //分页功能
                     pagination={{
                         pageSize: 8,
+                        showTotal: (total, range) => `共 ${total} 条数据`,
                         onChange: (page, pageSize) => {
                             fetchCategory(null, null, page, pageSize)
                         }
